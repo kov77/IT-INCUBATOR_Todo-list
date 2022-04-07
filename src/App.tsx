@@ -95,7 +95,6 @@ function App() {
     }
 
     function onCnangeListItemHandler(newValue: string, id: string, todolistId: string) {
-        console.log(newValue, id, todolistId)
         let tempTask = tasksObj[todolistId].find(el => el.id === id)
         if(tempTask) {
             tempTask.title = newValue
@@ -103,6 +102,15 @@ function App() {
         setTasks({...tasksObj});
 
     }
+    function changeTodolistTitle(newValue: string, todolistId: string) {
+        const tempTodolist =  todoLists.find(el => el.id === todolistId)
+        if(tempTodolist) {
+            tempTodolist.title = newValue
+        }
+        setTodoLists([...todoLists])
+    }
+
+
 
 
     return (
@@ -136,6 +144,7 @@ function App() {
                         addTask={addTask}
                         removeTodoList={removeTodoList}
                         onCnangeListItemHandler = {onCnangeListItemHandler}
+                        changeTodolistTitle = {changeTodolistTitle}
                     />
                 })
             }

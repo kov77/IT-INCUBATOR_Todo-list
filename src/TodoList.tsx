@@ -14,6 +14,7 @@ type PropsType = {
     id: string
     removeTodoList: (todoListId: string) => void
     onCnangeListItemHandler: (newValue: string, id: string, todolistId: string) => void
+    changeTodolistTitle: (title :string, id: string) => void
 }
 
 export type tasksArr = {
@@ -35,9 +36,14 @@ export function TodoList(props: PropsType) {
         props.addTask(title, props.id)
     }
 
+    const onChangeTitleItem = (title: string) => {
+        props.changeTodolistTitle(title, props.id)
+    }
+
     return (
         <div>
-            <h3>{props.title}
+            <h3>{<EditableSpan title={props.title} onChange={onChangeTitleItem}/>
+            }
                 <button onClick={removeTodolistHandler}> X</button>
             </h3>
             <AddItemForm addItem={addTask}/>
@@ -48,7 +54,7 @@ export function TodoList(props: PropsType) {
                            props.changeTaskStatus(el.id, e.currentTarget.checked, props.id)
                        }
 
-                        const onCnangeListItem = (newValue: string) => {
+                       const onCnangeListItem = (newValue: string) => {
                             props.onCnangeListItemHandler(newValue, el.id, props.id)
                         }
                     return (
