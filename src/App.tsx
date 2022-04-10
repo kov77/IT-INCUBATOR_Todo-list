@@ -10,6 +10,7 @@ type todoListType = {
     id: string
     title: string
     filter: FilterValueType
+    selectHandler: boolean
 }
 
 function App() {
@@ -28,8 +29,8 @@ function App() {
 
 
     let [todoLists, setTodoLists] = useState<todoListType[]>([
-        {id: todoListId1, title: "What to learn", filter: "active"},
-        {id: todoListId2, title: "What to buy", filter: "complited"}
+        {id: todoListId1, title: "What to learn", filter: "all", selectHandler: false},
+        {id: todoListId2, title: "What to buy", filter: "all", selectHandler: false}
     ])
 
     let[tasksObj, setTasks] = useState({
@@ -42,8 +43,9 @@ function App() {
         {id: v1(), title: "Angular", isDone: false}
     ],
         [todoListId2] : [
-            {id: v1(), title: "Vodka", isDone: true},
-            {id: v1(), title: "Condoms", isDone: true},
+            {id: v1(), title: "Apples", isDone: false},
+            {id: v1(), title: "Oranges", isDone: false},
+            {id: v1(), title: "Bananas", isDone: true},
         ],
 
     })
@@ -86,7 +88,8 @@ function App() {
         const todoList: todoListType = {
             id: v1(),
             title: title,
-            filter : "all"
+            filter : "all",
+            selectHandler: false
         }
 
         setTodoLists([todoList, ...todoLists])
@@ -110,6 +113,25 @@ function App() {
         setTodoLists([...todoLists])
     }
 
+    function selectAllItems(todolistID: string, isChecked: boolean) {
+        let newTodolist = todoLists.find(el => el.id === todolistID)
+        if(newTodolist) {
+            newTodolist.selectHandler = isChecked
+            if(newTodolist.selectHandler) {
+                tasksObj[todolistID].map(el => {
+                    el.isDone = true
+                })
+            } else if (newTodolist.selectHandler === false) {
+                tasksObj[todolistID].map(el => {
+                    el.isDone = false
+                })
+            }
+            setTasks({...tasksObj})
+        }
+        setTodoLists([...todoLists])
+
+
+    }
 
 
 
@@ -145,6 +167,9 @@ function App() {
                         removeTodoList={removeTodoList}
                         onCnangeListItemHandler = {onCnangeListItemHandler}
                         changeTodolistTitle = {changeTodolistTitle}
+                        selectAllItems={selectAllItems}
+                        allSelectItem={el.selectHandler}
+
                     />
                 })
             }

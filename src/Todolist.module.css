@@ -1,0 +1,30 @@
+.allItems {
+    list-style-type: none;
+
+}
+
+.allItemsInput {
+    margin-bottom: 10px;
+    width: 15px;
+    height: 15px;
+}
+.todolistClass {
+    border: 3px solid aquamarine;
+    padding: 10px;
+}
+
+.todolistHeader {
+text-transform: uppercase}
+
+.todolistXBtn {
+    color: red;
+    font-weight: bold;
+    margin-left: 10px;
+    background: none;
+    font-size: 18px;
+}
+
+.btnFilterClasses {
+    margin: 3px;
+    border-radius: 5px;
+}

@@ -2,6 +2,7 @@ import React, {ChangeEvent} from "react";
 import {FilterValueType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import classes from './Todolist.module.css'
 
 type PropsType = {
     tasks: tasksArr[],
@@ -15,6 +16,9 @@ type PropsType = {
     removeTodoList: (todoListId: string) => void
     onCnangeListItemHandler: (newValue: string, id: string, todolistId: string) => void
     changeTodolistTitle: (title :string, id: string) => void
+    selectAllItems: (todoListId: string, isChecked: boolean) => void
+    allSelectItem: boolean
+
 }
 
 export type tasksArr = {
@@ -40,14 +44,23 @@ export function TodoList(props: PropsType) {
         props.changeTodolistTitle(title, props.id)
     }
 
+    const onChangeAllItemsHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        props.selectAllItems(props.id, e.currentTarget.checked)
+    }
+
     return (
-        <div>
-            <h3>{<EditableSpan title={props.title} onChange={onChangeTitleItem}/>
+        <div className={classes.todolistClass}>
+            <h3 className={classes.todolistHeader}>{<EditableSpan title={props.title} onChange={onChangeTitleItem}/>
             }
-                <button onClick={removeTodolistHandler}> X</button>
+                <button className={classes.todolistXBtn} onClick={removeTodolistHandler}> X</button>
             </h3>
             <AddItemForm addItem={addTask}/>
             <ul>
+                <li className={classes.allItems}>
+                    <input onChange={onChangeAllItemsHandler}
+                           className={classes.allItemsInput}
+                           type="checkbox" checked={props.allSelectItem}/>
+                </li>
                 {
                     props.tasks.map((el, index) => {
                        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,9 +85,9 @@ export function TodoList(props: PropsType) {
                 }
             </ul>
             <div>
-                <button className={props.filter === 'all' ? 'active-filter' : ''} onClick={onClickFilterHandlerAll}>All</button>
-                <button className={props.filter === 'active' ? 'active-filter' : ''} onClick={onClickFilterHandlerActive}>Active</button>
-                <button className={props.filter === 'complited' ? 'active-filter' : ''} onClick={onClickFilterHandlerComplited}>Completed</button>
+                <button className={props.filter === 'all' ? `active-filter` : classes.btnFilterClasses } onClick={onClickFilterHandlerAll}>All</button>
+                <button className={props.filter === 'active' ? `active-filter` : classes.btnFilterClasses } onClick={onClickFilterHandlerActive}>Active</button>
+                <button className={props.filter === 'complited' ? `active-filter` : classes.btnFilterClasses } onClick={onClickFilterHandlerComplited}>Completed</button>
             </div>
         </div>
     )
