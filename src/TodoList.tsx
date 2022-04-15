@@ -3,6 +3,8 @@ import {FilterValueType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import classes from './Todolist.module.css'
+import {IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 type PropsType = {
     tasks: tasksArr[],
@@ -52,7 +54,9 @@ export function TodoList(props: PropsType) {
         <div className={classes.todolistClass}>
             <h3 className={classes.todolistHeader}>{<EditableSpan title={props.title} onChange={onChangeTitleItem}/>
             }
-                <button className={classes.todolistXBtn} onClick={removeTodolistHandler}> X</button>
+                <IconButton className={classes.todolistXBtn} onClick={removeTodolistHandler} aria-label="delete">
+                    <Delete />
+                </IconButton>
             </h3>
             <AddItemForm addItem={addTask}/>
             <ul>
@@ -76,8 +80,9 @@ export function TodoList(props: PropsType) {
                                 onChange={onChangeHandler}
                                 type="checkbox" checked={el.isDone}/>
                                <EditableSpan title={el.title} onChange={onCnangeListItem}/>
-                            <button onClick={() => props.removeTask(el.id, props.id)}
-                                    style={{background: "transparent", border: "none", textAlign: "center", color: "darkred"}}>X</button>
+                            <IconButton onClick={() => props.removeTask(el.id, props.id)} aria-label="delete">
+                                <Delete />
+                            </IconButton>
                         </li>
 
                     )

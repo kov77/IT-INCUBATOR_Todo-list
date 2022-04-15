@@ -1,3 +1,9 @@
+.todolistClass {
+    border: 3px solid aquamarine;
+    padding: 10px;
+    background-color: rgba(169, 168, 168, 0.27);
+}
+
 .allItems {
     list-style-type: none;
 
@@ -7,10 +13,6 @@
     margin-bottom: 10px;
     width: 15px;
     height: 15px;
-}
-.todolistClass {
-    border: 3px solid aquamarine;
-    padding: 10px;
 }
 
 .todolistHeader {
