@@ -3,6 +3,7 @@ import {Button, TextField} from "@mui/material";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
+    label: string
 }
 
 export function AddItemForm(props: AddItemFormPropsType) {
@@ -36,11 +37,12 @@ export function AddItemForm(props: AddItemFormPropsType) {
 
     return (
         <div>
-            <TextField id="outlined-basic" label="New task" variant="outlined" size={"small"} value={inputTaskValue} onChange={onChangeInputHandler} onKeyPress={onKeyPressInputHandler}
-                       className={error ? 'error' : ''}/>
+            {error ?
+                <TextField error id="outlined-error" label="Text is required" size={"small"} value={inputTaskValue} onChange={onChangeInputHandler} onKeyPress={onKeyPressInputHandler} className={'error'}/>
+                :
+                <TextField id="outlined-basic" label={props.label} variant="outlined" size={"small"} value={inputTaskValue} onChange={onChangeInputHandler} onKeyPress={onKeyPressInputHandler} className={''}/>}
 
             <Button style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px', backgroundColor: 'black'}}  variant="contained" onClick={onClickButtonHandler}>+</Button>
-            {error && <div className='error-message'>{error}</div>}
         </div>
     )
 }

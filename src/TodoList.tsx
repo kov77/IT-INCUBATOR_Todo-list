@@ -58,8 +58,8 @@ export function TodoList(props: PropsType) {
                     <Delete />
                 </IconButton>
             </h3>
-            <AddItemForm addItem={addTask}/>
-            <ul>
+            <AddItemForm label={'New task'} addItem={addTask}/>
+            <ul className={classes.todolistItemsWrapper}>
                 <li className={classes.allItems}>
                     <input onChange={onChangeAllItemsHandler}
                            className={classes.allItemsInput}

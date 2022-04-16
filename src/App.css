@@ -2,6 +2,7 @@
   background-color: #fff;
   padding: 30px;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .App > div {
