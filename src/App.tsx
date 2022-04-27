@@ -7,9 +7,9 @@ import {AddItemForm} from "./AddItemForm";
 import {Container, Grid, Paper} from "@mui/material";
 
 
-export type FilterValueType = "all" | "complited" | "active"
+export type FilterValueType = "all" | "completed" | "active"
 
-type todoListType = {
+export type todoListType = {
     id: string
     title: string
     filter: FilterValueType
@@ -60,6 +60,27 @@ function App() {
         setTasks({...tasksObj})
     }
 
+    function addTodolist(title: string) {
+        const todoList: todoListType = {
+            id: v1(),
+            title: title,
+            filter: "all",
+            selectHandler: false
+        }
+
+        setTodoLists([todoList, ...todoLists])
+
+        setTasks({...tasksObj, [todoList.id]: []})
+    }
+
+    function changeTodolistTitle(newValue: string, todolistId: string) {
+        const tempTodolist = todoLists.find(el => el.id === todolistId)
+        if (tempTodolist) {
+            tempTodolist.title = newValue
+        }
+        setTodoLists([...todoLists])
+    }
+
 
     function addTask(title: string, todoListId: string) {
         let newTask = {id: v1(), title: title, isDone: false}
@@ -85,18 +106,7 @@ function App() {
         }
     }
 
-    function addTodolist(title: string) {
-        const todoList: todoListType = {
-            id: v1(),
-            title: title,
-            filter: "all",
-            selectHandler: false
-        }
 
-        setTodoLists([todoList, ...todoLists])
-
-        setTasks({...tasksObj, [todoList.id]: []})
-    }
 
     function onCnangeListItemHandler(newValue: string, id: string, todolistId: string) {
         let tempTask = tasksObj[todolistId].find(el => el.id === id)
@@ -105,14 +115,6 @@ function App() {
         }
         setTasks({...tasksObj});
 
-    }
-
-    function changeTodolistTitle(newValue: string, todolistId: string) {
-        const tempTodolist = todoLists.find(el => el.id === todolistId)
-        if (tempTodolist) {
-            tempTodolist.title = newValue
-        }
-        setTodoLists([...todoLists])
     }
 
     function selectAllItems(todolistID: string, isChecked: boolean) {
@@ -155,7 +157,7 @@ function App() {
                                 })
                             }
 
-                            if (el.filter === "complited") {
+                            if (el.filter === "completed") {
                                 tasksForTodoList = tasksForTodoList.filter((el) => {
                                     return el.isDone === true;
                                 })

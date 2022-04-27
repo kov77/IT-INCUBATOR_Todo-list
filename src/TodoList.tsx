@@ -7,7 +7,7 @@ import {IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 type PropsType = {
-    tasks: tasksArr[],
+    tasks: taskType[],
     title: string,
     removeTask: (id: string, todoListId: string) => void,
     filterTasks: (value: FilterValueType, filterId: string) => void
@@ -23,7 +23,7 @@ type PropsType = {
 
 }
 
-export type tasksArr = {
+export type taskType = {
     id: string,
     title: string,
     isDone: boolean
@@ -32,7 +32,7 @@ export type tasksArr = {
 export function TodoList(props: PropsType) {
     const onClickFilterHandlerAll = () => props.filterTasks('all', props.id)
     const onClickFilterHandlerActive = () => props.filterTasks('active', props.id)
-    const onClickFilterHandlerComplited = () => props.filterTasks( 'complited', props.id)
+    const onClickFilterHandlerComplited = () => props.filterTasks( 'completed', props.id)
 
     const removeTodolistHandler = () => {
         props.removeTodoList(props.id)
@@ -92,7 +92,7 @@ export function TodoList(props: PropsType) {
             <div>
                 <button className={props.filter === 'all' ? `active-filter` : classes.btnFilterClasses } onClick={onClickFilterHandlerAll}>All</button>
                 <button className={props.filter === 'active' ? `active-filter` : classes.btnFilterClasses } onClick={onClickFilterHandlerActive}>Active</button>
-                <button className={props.filter === 'complited' ? `active-filter` : classes.btnFilterClasses } onClick={onClickFilterHandlerComplited}>Completed</button>
+                <button className={props.filter === 'completed' ? `active-filter` : classes.btnFilterClasses } onClick={onClickFilterHandlerComplited}>Completed</button>
             </div>
         </div>
     )
