@@ -16,6 +16,12 @@ export type todoListType = {
     selectHandler: boolean
 }
 
+export type taskType = {
+    id: string
+    title: string
+    isDone: boolean
+}
+
 function App() {
 
     let filterTasks = (filter: FilterValueType, todoListId: string) => {
