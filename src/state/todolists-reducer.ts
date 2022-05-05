@@ -19,14 +19,31 @@ export const todolistsReducer = (state: Array<todoListType>, action: todolistsRe
         case "CHANGE-TODOLIST-FILTER": {
             return state.map(el => el.id === action.payload.todolistId ? {...el, filter: action.payload.filter} : el)
         }
+        case "SELECT-ALL-ITEMS": {
+            let todolist = state.find(todolist => todolist.id === action.payload.todolistId)
+            if(todolist) {
+                todolist.selectHandler = action.payload.isChecked
+                if(todolist.selectHandler) {
+                    action.payload.tasksObj[action.payload.todolistId].map((el:any) => {
+                        el.isDone = true
+                    })
+                } else if(todolist.selectHandler === false) {
+                    action.payload.tasksObj[action.payload.todolistId].map((el:any) => {
+                        el.isDone = false
+                    })
+                }
+            }
+            return [...state]
+        }
         default: return state
     }
 }
-type todolistsReducerType = removeTodolistType | addTodolistType | changeTodolistTitleType | filterTasksType
+type todolistsReducerType = removeTodolistType | addTodolistType | changeTodolistTitleType | filterTasksType | selectAllItemsType
 export type removeTodolistType = ReturnType<typeof removeTodolistAC>
 export type addTodolistType = ReturnType<typeof addTodolistAC>
 type changeTodolistTitleType = ReturnType<typeof changeTodolistTitleAC>
 type filterTasksType = ReturnType<typeof filterTasksAC>
+export type selectAllItemsType = ReturnType<typeof selectAllItemsAC>
 
 export const removeTodolistAC = (todolistId: string) => {
     return {
@@ -60,6 +77,16 @@ export const filterTasksAC = (filter: FilterValueType, todolistId: string) => {
         payload: {
             filter,
             todolistId
+        }
+    } as const
+}
+export const selectAllItemsAC = (isChecked: boolean, todolistId: string, tasksObj: any) => {
+    return {
+        type: 'SELECT-ALL-ITEMS',
+        payload: {
+            isChecked,
+            todolistId,
+            tasksObj
         }
     } as const
 }

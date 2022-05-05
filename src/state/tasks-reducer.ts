@@ -1,5 +1,5 @@
 import {taskType} from "../App";
-import {addTodolistType, removeTodolistType} from "./todolists-reducer";
+import {addTodolistType, removeTodolistType, selectAllItemsType} from "./todolists-reducer";
 import {v1} from "uuid";
 
 export const tasksReducer = (state: any, action: tasksReducerType) => {
@@ -11,7 +11,7 @@ export const tasksReducer = (state: any, action: tasksReducerType) => {
             }
         }
         case "ADD-TASK": {
-            let newTask = {id: action.payload.taskId, title: action.payload.title, isDone: false}
+            let newTask = {id: v1(), title: action.payload.title, isDone: false}
             return {
                 ...state, [action.payload.todolistId]: [newTask, ...state[action.payload.todolistId]]
             }
@@ -44,10 +44,13 @@ export const tasksReducer = (state: any, action: tasksReducerType) => {
             delete copyState[action.payload.todolistId]
             return copyState
         }
+        case "SELECT-ALL-ITEMS": {
+            return {...action.payload.tasksObj}
+        }
         default: return state
     }
 }
-type tasksReducerType = removeTaskType | addTaskType | changeTaskStatusType | changeTaskTitleType | addTodolistType | removeTodolistType
+type tasksReducerType = removeTaskType | addTaskType | changeTaskStatusType | changeTaskTitleType | addTodolistType | removeTodolistType | selectAllItemsType
 type removeTaskType = ReturnType<typeof removeTasktAC>
 type addTaskType = ReturnType<typeof addTasktAC>
 type changeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
@@ -62,11 +65,10 @@ export const removeTasktAC = (taskId: string, todolistId: string) => {
         }
     } as const
 }
-export const addTasktAC = (taskId: string, todolistId: string, title: string) => {
+export const addTasktAC = (todolistId: string, title: string) => {
     return {
         type: 'ADD-TASK',
         payload: {
-            taskId,
             todolistId,
             title
         }
@@ -89,6 +91,17 @@ export const changeTaskTitleAC = (taskId: string, title: string, todolistId: str
             taskId,
             title,
             todolistId
+        }
+    } as const
+}
+
+export const selectAllItemsAC = (isChecked : boolean, todolistID: string, tasksObj: any) => {
+    return {
+        type: 'SELECT-ALL-ITEMS',
+        payload: {
+            isChecked,
+            todolistID,
+            tasksObj
         }
     } as const
 }
