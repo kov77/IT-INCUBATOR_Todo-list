@@ -1,9 +1,9 @@
-import {FilterValueType, todoListType} from "../App";
+import {FilterValueType, todoListType} from "../AppWithRedux";
 import {v1} from "uuid";
 
 const initialState: Array<todoListType> = []
 
-export const todolistsReducer = (state: Array<todoListType> = initialState, action: todolistsReducerType) => {
+export const todolistsReducer = function(state: Array<todoListType> = initialState, action: todolistsReducerType) {
     switch (action.type) {
         case "REMOVE-TODOLIST":
             return state.filter(el => el.id !== action.payload.todolistId)
@@ -26,12 +26,14 @@ export const todolistsReducer = (state: Array<todoListType> = initialState, acti
             if(todolist) {
                 todolist.selectHandler = action.payload.isChecked
                 if(todolist.selectHandler) {
-                    action.payload.tasksObj[action.payload.todolistId].map((el:any) => {
-                        el.isDone = true
+                   action.payload.tasksObj[action.payload.todolistId].map((el:any) => {
+                       el.isDone = true
+
                     })
                 } else if(todolist.selectHandler === false) {
                     action.payload.tasksObj[action.payload.todolistId].map((el:any) => {
                         el.isDone = false
+
                     })
                 }
             }

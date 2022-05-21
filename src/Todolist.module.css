@@ -1,17 +1,27 @@
 .todolistClass {
     /*border: 3px solid aquamarine;*/
+    position: relative;
     padding: 10px;
     max-height: 330px;
 }
 
 .todolistItemsWrapper {
+    margin-top: 30px;
     overflow: scroll;
     max-height: 150px;
 }
 
 .allItems {
+    position: absolute;
+    left: 19px;
+    margin-top: 10px;
     list-style-type: none;
-
+    text-align: start;
+}
+.allItems::before {
+    content: "ALL ";
+    font-size: 14px;
+    font-weight: 800;
 }
 
 .allItemsInput {
