@@ -76,4 +76,43 @@ export const GetTasks = () => {
 
     return <div>{JSON.stringify((state))}</div>
 }
+export const CreateTasks = () => {
+    const[state, setState] = useState<any>(null)
 
+    useEffect(() => {
+        todolistApi.createTasks()
+            .then(response => {
+                    setState(response.data)
+
+                }
+            )
+    }, [])
+    return <div>{JSON.stringify((state))}</div>
+
+}
+export const DeleteTask = () => {
+    const[state, setState] = useState<any>(null)
+
+    useEffect(() => {
+        todolistApi.deleteTask()
+            .then(response => {
+                    setState(response.data)
+
+                }
+            )
+    }, [])
+    return <div>{JSON.stringify((state))}</div>
+}
+
+export const UpdateTask = () => {
+    const[state, setState] = useState<any>(null)
+
+    useEffect(() => {
+        todolistApi.updateTask()
+            .then(response => {
+                    setState(response.data)
+                }
+            )
+    }, [])
+    return <div>{JSON.stringify((state))}</div>
+}
