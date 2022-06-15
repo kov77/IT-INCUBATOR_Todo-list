@@ -7,6 +7,9 @@ export default {
     decorators: [ReduxStoreProviderDecorator]
 }
 
+const todolistId = "76d032a7-c14a-4443-9f77-26a23f7a9446"
+const taskId = "17975dea-7e10-4c98-852c-5892c31f37e7"
+
 
 export const GetTodolist = () => {
 
@@ -27,7 +30,7 @@ export const CreateTodolist = () => {
     const[state, setState] = useState<any>(null)
 
     useEffect(() => {
-        todolistApi.postTodolist({"title": "New one"})
+        todolistApi.postTodolist("New one")
             .then(response => {
                 setState(response.data)
 
@@ -41,7 +44,7 @@ export const DeleteTodolist = () => {
     const[state, setState] = useState<any>(null)
 
     useEffect(() => {
-       todolistApi.deleteTodolist()
+       todolistApi.deleteTodolist(todolistId)
             .then(response => {
                     setState(null)
                 }
@@ -54,7 +57,7 @@ export const UpdateTodolist = () => {
     const[state, setState] = useState<any>(null)
 
     useEffect(() => {
-        todolistApi.updateTodolist({"title": "Hi There"})
+        todolistApi.updateTodolist(todolistId, "Hi There")
             .then(response => {
                     setState(response.data)
                 }
@@ -67,7 +70,7 @@ export const GetTasks = () => {
     const[state, setState] = useState<any>(null)
 
     useEffect(() => {
-        todolistApi.getTasks()
+        todolistApi.getTasks(todolistId)
             .then((response: any) => {
                     setState(response.data)
                 }
@@ -78,9 +81,8 @@ export const GetTasks = () => {
 }
 export const CreateTasks = () => {
     const[state, setState] = useState<any>(null)
-
     useEffect(() => {
-        todolistApi.createTasks()
+        todolistApi.createTasks(todolistId, "The best of the best title")
             .then(response => {
                     setState(response.data)
 
@@ -94,7 +96,7 @@ export const DeleteTask = () => {
     const[state, setState] = useState<any>(null)
 
     useEffect(() => {
-        todolistApi.deleteTask()
+        todolistApi.deleteTask(todolistId, taskId)
             .then(response => {
                     setState(response.data)
 
@@ -108,7 +110,7 @@ export const UpdateTask = () => {
     const[state, setState] = useState<any>(null)
 
     useEffect(() => {
-        todolistApi.updateTask()
+        todolistApi.updateTask(todolistId, taskId, "Today up task")
             .then(response => {
                     setState(response.data)
                 }
