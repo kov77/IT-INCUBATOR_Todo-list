@@ -5,8 +5,9 @@ import {EditableSpan} from "./EditableSpan";
 import classes from './Todolist.module.css'
 import {IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {FilterValueType} from "./AppWithRedux";
 import {Task} from "./Task";
+import { FilterValueType } from "./state/todolists-reducer";
+import {TaskStatuses, taskType} from "./api/todolists-api";
 
 type PropsType = {
     tasksArray: any
@@ -15,22 +16,17 @@ type PropsType = {
     removeTask: (id: string, todoListId: string) => void,
     filterTasks: (value: FilterValueType, filterId: string) => void
     addTask: (title: string, todoListId: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean, todoListId: string) => void
+    changeTaskStatus: (taskId: string, status: TaskStatuses, todoListId: string) => void
     filter: FilterValueType
     id: string
     removeTodoList: (todoListId: string) => void
-    onCnangeListItemHandler: (newValue: string, id: string, todolistId: string) => void
+    onChangeListItemHandler: (newValue: string, id: string, todolistId: string) => void
     changeTodolistTitle: (title :string, id: string) => void
     selectAllItems: (todoListId: string, isChecked: boolean, tasks: any) => void
     allSelectItem: boolean
 
 }
 
-export type taskType = {
-    id: string,
-    title: string,
-    isDone: boolean
-}
 
 export const TodoList = React.memo((props: PropsType) => {
     const onClickFilterHandlerAll = useCallback(() => props.filterTasks('all', props.id), [props.filterTasks, props.id])
@@ -58,13 +54,13 @@ export const TodoList = React.memo((props: PropsType) => {
 
     if (props.filter === "active") {
         tasksForTodoList = tasksForTodoList.filter((el: any) => {
-            return el.isDone === false;
+            return el.status === TaskStatuses.New
         })
     }
 
     if (props.filter === "completed") {
         tasksForTodoList = tasksForTodoList.filter((el: any) => {
-            return el.isDone === true;
+            return el.status === TaskStatuses.Completed;
         })
     }
 
@@ -86,7 +82,7 @@ export const TodoList = React.memo((props: PropsType) => {
                 {
                     tasksForTodoList.map((el) => <Task el={el}
                                                        changeTaskStatus={props.changeTaskStatus}
-                                                       onCnangeListItemHandler={props.onCnangeListItemHandler}
+                                                       onCnangeListItemHandler={props.onChangeListItemHandler}
                                                        removeTask={props.removeTask}
                                                        id={props.id}
                                                        key={el.id}/>

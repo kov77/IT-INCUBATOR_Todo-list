@@ -1,18 +1,27 @@
-import {FilterValueType, todoListType} from "../AppWithRedux";
 import {v1} from "uuid";
+import {todolistType} from "./../api/todolists-api"
 
-const initialState: Array<todoListType> = []
+const initialState: Array<todoListDomainType> = [];
 
-export const todolistsReducer = function(state: Array<todoListType> = initialState, action: todolistsReducerType) {
+export type FilterValueType = "all" | "completed" | "active"
+
+export type todoListDomainType = todolistType & {
+    filter: FilterValueType
+    selectHandler: boolean
+}
+
+export const todolistsReducer = (state: Array<todoListDomainType> = initialState, action: todolistsReducerType) => {
     switch (action.type) {
         case "REMOVE-TODOLIST":
             return state.filter(el => el.id !== action.payload.todolistId)
         case "ADD-TODOLIST":
-            const todoList: todoListType = {
+             const todoList: todoListDomainType = {
                 id: action.payload.todolistId,
                 title: action.payload.title,
                 filter: "all",
-                selectHandler: false
+                selectHandler: false,
+                 addedDate: '',
+                 order: 0
             }
             return [todoList, ...state]
         case "CHANGE-TODOLIST-TITLE": {
@@ -27,13 +36,11 @@ export const todolistsReducer = function(state: Array<todoListType> = initialSta
                 todolist.selectHandler = action.payload.isChecked
                 if(todolist.selectHandler) {
                    action.payload.tasksObj[action.payload.todolistId].map((el:any) => {
-                       el.isDone = true
-
+                       return el.status = true
                     })
                 } else if(todolist.selectHandler === false) {
                     action.payload.tasksObj[action.payload.todolistId].map((el:any) => {
-                        el.isDone = false
-
+                       return el.status = false
                     })
                 }
             }

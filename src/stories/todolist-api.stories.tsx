@@ -30,7 +30,7 @@ export const CreateTodolist = () => {
     const[state, setState] = useState<any>(null)
 
     useEffect(() => {
-        todolistApi.postTodolist("New one")
+        todolistApi.createTodolist("New one")
             .then(response => {
                 setState(response.data)
 

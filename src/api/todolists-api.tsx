@@ -22,12 +22,28 @@ export type basicTodoType<T> = {
     resultCode: number
 }
 
-export type itemsTaskType = {
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+
+}
+
+export enum TaskPriorities {
+    Low = 0,
+    Middle = 1,
+    Hi = 2,
+    Urgently = 3,
+    Later = 4
+}
+
+export type taskType = {
     description: string
     title: string
     completed: boolean
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
     id: string
@@ -36,11 +52,6 @@ export type itemsTaskType = {
     addedDate: string
 }
 
-export type tasksType = {
-    items: itemsTaskType[]
-    totalCount: number
-    error: string
-}
 
 export type basicTaskType<T> = {
     data: T
@@ -55,7 +66,7 @@ export const todolistApi = {
     getTodolist() {
         return instance.get<todolistType[]>('todo-lists')
     },
-    postTodolist( title: string ) {
+    createTodolist( title: string ) {
         return instance.post<basicTodoType<{item: todolistType}>>('todo-lists', {title})
     },
     deleteTodolist(todolistId: string) {
@@ -65,15 +76,15 @@ export const todolistApi = {
         return instance.put<basicTodoType<{}>>(`todo-lists/${todolistId}`, {title})
     },
     getTasks(todolistId: string) {
-        return instance.get<tasksType>(`todo-lists/${todolistId}/tasks`)
+        return instance.get<taskType[]>(`todo-lists/${todolistId}/tasks`)
     },
     createTasks(todolistId: string, title: string ) {
-        return instance.post<basicTaskType<itemsTaskType>>(`todo-lists/${todolistId}/tasks`, {title})
+        return instance.post<basicTaskType<taskType>>(`todo-lists/${todolistId}/tasks`, {title})
     },
     deleteTask(todolistId: string, taskId: string) {
             return instance.delete<basicTaskType<{}>>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
     updateTask(todolistId: string, taskId: string, title: string) {
-        return instance.put<basicTaskType<itemsTaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, {title})
-       }
+        return instance.put<basicTaskType<taskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, {title})
+    }
 }
