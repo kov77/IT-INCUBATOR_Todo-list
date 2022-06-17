@@ -41,7 +41,6 @@ export enum TaskPriorities {
 export type taskType = {
     description: string
     title: string
-    completed: boolean
     status: TaskStatuses
     priority: TaskPriorities
     startDate: string
@@ -57,6 +56,15 @@ export type basicTaskType<T> = {
     data: T
     messages: Array<string>
     resultCode: number
+}
+
+export type updateTaskType = {
+    title: string
+    description: string
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
 }
 
 
