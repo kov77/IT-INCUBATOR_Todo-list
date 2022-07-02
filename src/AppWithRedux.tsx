@@ -1,10 +1,10 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {TodoList} from "./TodoList";
 import Header from "./Header";
 import {AddItemForm} from "./AddItemForm";
 import {Container, Grid, Paper} from "@mui/material";
-import {todoListDomainType, FilterValueType} from "./state/todolists-reducer"
+import {todoListDomainType, FilterValueType, fetchTodosThunk} from "./state/todolists-reducer"
 import {changeTaskStatusAC, tasksStateType} from "./state/tasks-reducer"
 
 import {
@@ -24,6 +24,11 @@ function AppWithRedux() {
     let tasks = useSelector<AppRootStateType, tasksStateType>(state => state.tasks)
 
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        // @ts-ignore
+        dispatch(fetchTodosThunk)
+    }, [])
 
     const removeTodoList = useCallback((todoListId: string) => {
         dispatch(removeTodolistAC(todoListId))

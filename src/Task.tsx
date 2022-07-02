@@ -10,16 +10,16 @@ export const Task = (props: any) => {
         props.changeTaskStatus(props.el.id, status, props.id)
     }
 
-    const onCnangeListItem = (newValue: string) => {
+    const onChangeListItem = (newValue: string) => {
         props.onCnangeListItemHandler(newValue, props.el.id, props.id)
     }
-    debugger
+
     return (
         <li key={props.el.id} className={props.el.status === TaskStatuses.Completed ? 'is-done' : ''}>
             <input
                 onChange={onChangeHandler}
                 type="checkbox" checked={props.el.status === TaskStatuses.Completed}/>
-            <EditableSpan title={props.el.title} onChange={onCnangeListItem}/>
+            <EditableSpan title={props.el.title} onChange={onChangeListItem}/>
             <IconButton onClick={() => props.removeTask(props.el.id, props.id)} aria-label="delete">
                 <Delete />
             </IconButton>
