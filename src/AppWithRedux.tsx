@@ -4,8 +4,8 @@ import {TodoList} from "./TodoList";
 import Header from "./Header";
 import {AddItemForm} from "./AddItemForm";
 import {Container, Grid, Paper} from "@mui/material";
-import {todoListDomainType, FilterValueType, fetchTodosThunk} from "./state/todolists-reducer"
-import {changeTaskStatusAC, tasksStateType} from "./state/tasks-reducer"
+import {todoListDomainType, FilterValueType, fetchTodosTC} from "./state/todolists-reducer"
+import {addTaskTC, changeTaskStatusAC, removeTaskTC, tasksStateType} from "./state/tasks-reducer"
 
 import {
     addTodolistAC,
@@ -13,7 +13,7 @@ import {
     filterTasksAC,
     removeTodolistAC, selectAllItemsAC
 } from "./state/todolists-reducer";
-import {addTaskAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {addTaskAC, changeTaskTitleAC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {TaskStatuses} from "./api/todolists-api";
@@ -27,7 +27,7 @@ function AppWithRedux() {
 
     useEffect(() => {
         // @ts-ignore
-        dispatch(fetchTodosThunk)
+        dispatch(fetchTodosTC())
     }, [])
 
     const removeTodoList = useCallback((todoListId: string) => {
@@ -49,12 +49,13 @@ function AppWithRedux() {
 
 
     const addTask = useCallback((title: string, todoListId: string) => {
-        dispatch(addTaskAC(todoListId, title))
+        // @ts-ignore
+        dispatch(addTaskTC(todoListId, title))
     }, [dispatch])
 
     const removeTask = useCallback((id: string, todoListId: string) => {
-
-        dispatch(removeTaskAC(id, todoListId));
+        // @ts-ignore
+        dispatch(removeTaskTC(todoListId, id));
     }, [dispatch])
 
     const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses, todoListId: string) => {
