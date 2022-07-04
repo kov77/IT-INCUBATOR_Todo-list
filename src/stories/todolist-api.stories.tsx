@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
-import { todolistApi } from '../api/todolists-api';
+import {todolistApi, updateTaskModelType} from '../api/todolists-api';
+import { store } from '../state/store';
 
 export default {
     title: 'Axios',
@@ -170,7 +171,12 @@ export const UpdateTask = () => {
     const[deadline, setDeadline] = useState<string>('')
 
     const updateTask = () => {
-        todolistApi.updateTask(todolistId, taskId, title)
+        const state = store.getState()
+        const tasks = state.tasks
+        const currentTask = tasks[todolistId].find((task: any) => task.id === taskId)
+
+        const model: any = {...currentTask, status}
+        todolistApi.updateTask(todolistId, taskId, model)
             .then(response => {
                     setState(response.data)
                 }

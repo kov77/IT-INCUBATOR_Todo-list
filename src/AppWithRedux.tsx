@@ -5,7 +5,7 @@ import Header from "./Header";
 import {AddItemForm} from "./AddItemForm";
 import {Container, Grid, Paper} from "@mui/material";
 import {todoListDomainType, FilterValueType, fetchTodosTC} from "./state/todolists-reducer"
-import {addTaskTC, changeTaskStatusAC, removeTaskTC, tasksStateType} from "./state/tasks-reducer"
+import {addTaskTC, changeTaskStatusAC, changeTaskStatusTC, removeTaskTC, tasksStateType} from "./state/tasks-reducer"
 
 import {
     addTodolistAC,
@@ -13,7 +13,7 @@ import {
     filterTasksAC,
     removeTodolistAC, selectAllItemsAC
 } from "./state/todolists-reducer";
-import {addTaskAC, changeTaskTitleAC} from "./state/tasks-reducer";
+import { changeTaskTitleAC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {TaskStatuses} from "./api/todolists-api";
@@ -59,7 +59,8 @@ function AppWithRedux() {
     }, [dispatch])
 
     const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses, todoListId: string) => {
-        dispatch(changeTaskStatusAC(taskId, status, todoListId))
+        // @ts-ignore
+        dispatch(changeTaskStatusTC(todoListId, taskId, status ))
     }, [dispatch])
 
 
