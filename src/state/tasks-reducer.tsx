@@ -147,7 +147,10 @@ const SetTasksAC = (tasks: tasksStateType, todolistId: string) => {
     } as const
 }
 
+//Thunk
+
 export const fetchTaskTC = (todolistId: string) => (dispatch: Dispatch) => {
+    console.log("id in tasks:   " + todolistId)
     todolistApi.getTasks(todolistId).then(response => {
         dispatch(SetTasksAC(response.data.items, todolistId))
     })

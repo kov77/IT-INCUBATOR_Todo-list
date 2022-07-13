@@ -31,13 +31,14 @@ function AppWithRedux() {
     useEffect(() => {
         // @ts-ignore
         dispatch(fetchTodosTC())
-    }, [])
+    }, [dispatch])
 
     const removeTodoList = useCallback((todoListId: string) => {
         dispatch(removeTodolistTC(todoListId) as any)
     }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {
+        console.log('add todo')
         dispatch(addTodolistTC(title) as any)
     }, [dispatch])
 
@@ -86,6 +87,7 @@ function AppWithRedux() {
                 <Grid container spacing={3}>
                     {
                         todolists.map((el: any) => {
+                            console.log(el)
                             let tasksForTodoList = tasks[el.id];
 
                             return <Grid key={el.id} item>
