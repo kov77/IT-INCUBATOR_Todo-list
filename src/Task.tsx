@@ -8,6 +8,7 @@ export const Task = (props: any) => {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
         props.changeTaskStatus(props.el.id, status, props.id)
+        console.log('onChangeHandler')
     }
 
     const onChangeListItem = (newValue: string) => {
