@@ -4,6 +4,7 @@ import {TodoList} from "./TodoList";
 import Header from "./Header";
 import {AddItemForm} from "./AddItemForm";
 import {Container, Grid, Paper} from "@mui/material";
+import LinearProgress from '@mui/material/LinearProgress';
 import {
     todoListDomainType,
     FilterValueType,
@@ -18,7 +19,7 @@ import {
     selectAllItemsAC
 } from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
+import {AppRootStateType, store, useAppSelector} from "./state/store";
 import {TaskStatuses} from "./api/todolists-api";
 
 function AppWithRedux() {
@@ -75,11 +76,12 @@ function AppWithRedux() {
         dispatch(selectAllItemsAC(isChecked, todolistID, tasks))
     }, [dispatch, selectAllItemsAC, tasks])
 
+    const status = useAppSelector((state) => state.app.status )
 
     return (
-
         <div className="App">
             <Header/>
+            {status === "loading" && <LinearProgress style={{"width": "100%"}} color="secondary"/>}
             <Container fixed>
                 <Grid container style={{padding: "20px"}}>
                     <AddItemForm label={'New todolist'} addItem={addTodolist}/>
