@@ -21,6 +21,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType, store, useAppSelector} from "./state/store";
 import {TaskStatuses} from "./api/todolists-api";
+import {ErrorSnackbar} from "./ErrorSnackbar";
 
 function AppWithRedux() {
 
@@ -28,6 +29,8 @@ function AppWithRedux() {
     let tasks = useSelector<AppRootStateType, tasksStateType>(state => state.tasks)
 
     const dispatch = useDispatch()
+
+    const status = useAppSelector((state) => state.app.status )
 
     useEffect(() => {
         // @ts-ignore
@@ -76,7 +79,6 @@ function AppWithRedux() {
         dispatch(selectAllItemsAC(isChecked, todolistID, tasks))
     }, [dispatch, selectAllItemsAC, tasks])
 
-    const status = useAppSelector((state) => state.app.status )
 
     return (
         <div className="App">
@@ -84,7 +86,7 @@ function AppWithRedux() {
             {status === "loading" && <LinearProgress style={{"width": "100%"}} color="secondary"/>}
             <Container fixed>
                 <Grid container style={{padding: "20px"}}>
-                    <AddItemForm label={'New todolist'} addItem={addTodolist}/>
+                    <AddItemForm status={status} label={'New todolist'} addItem={addTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
                     {
@@ -95,6 +97,7 @@ function AppWithRedux() {
                             return <Grid key={el.id} item>
                                 <Paper key={el.id} style={{padding: "10px"}}>
                                     <TodoList
+                                        status = {status}
                                         tasksArray = {tasks}
                                         key={el.id}
                                         id={el.id}
@@ -117,6 +120,7 @@ function AppWithRedux() {
                     }
                 </Grid>
             </Container>
+            <ErrorSnackbar />
         </div>
 
     );

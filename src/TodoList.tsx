@@ -10,6 +10,7 @@ import { FilterValueType } from "./state/todolists-reducer";
 import {TaskStatuses, taskType} from "./api/todolists-api";
 import {useDispatch} from "react-redux";
 import { fetchTaskTC } from "./state/tasks-reducer";
+import {RequestStatusType} from "./state/app-reducer";
 
 type PropsType = {
     tasksArray: any
@@ -26,6 +27,7 @@ type PropsType = {
     changeTodolistTitle: (title :string, id: string) => void
     selectAllItems: (todoListId: string, isChecked: boolean, tasks: any) => void
     allSelectItem: boolean
+    status: RequestStatusType
 
 }
 
@@ -39,6 +41,7 @@ export const TodoList = React.memo((props: PropsType) => {
 
     useEffect(() => {
         // @ts-ignore
+
         dispatch(fetchTaskTC(props.id))
     }, [])
 
@@ -77,11 +80,11 @@ export const TodoList = React.memo((props: PropsType) => {
         <div className={classes.todolistClass}>
             <h3 className={classes.todolistHeader}>{<EditableSpan title={props.title} onChange={onChangeTitleItem}/>
             }
-                <IconButton className={classes.todolistXBtn} onClick={removeTodolistHandler} aria-label="delete">
+                <IconButton disabled={props.status === "loading"} className={classes.todolistXBtn} onClick={removeTodolistHandler} aria-label="delete">
                     <Delete />
                 </IconButton>
             </h3>
-            <AddItemForm label={'New task'} addItem={addTask}/>
+            <AddItemForm status={props.status} label={'New task'} addItem={addTask}/>
             <li className={classes.allItems}>
                 <input onChange={onChangeAllItemsHandler}
                        className={classes.allItemsInput}
@@ -90,6 +93,7 @@ export const TodoList = React.memo((props: PropsType) => {
             <ul className={classes.todolistItemsWrapper}>
                 {
                     tasksForTodoList.map((el) => <Task el={el}
+                                                       status={props.status}
                                                        changeTaskStatus={props.changeTaskStatus}
                                                        onCnangeListItemHandler={props.onChangeListItemHandler}
                                                        removeTask={props.removeTask}

@@ -7,6 +7,7 @@ import {
 import { TaskStatuses, taskType, todolistApi, updateTaskModelType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
+import {setErrorAC, setStatusAC} from "./app-reducer";
 
 
 
@@ -150,22 +151,28 @@ const SetTasksAC = (tasks: tasksStateType, todolistId: string) => {
 //Thunk
 
 export const fetchTaskTC = (todolistId: string) => (dispatch: Dispatch) => {
-    console.log("id in tasks:   " + todolistId)
+    dispatch(setStatusAC('loading'))
     todolistApi.getTasks(todolistId).then(response => {
         dispatch(SetTasksAC(response.data.items, todolistId))
+        dispatch(setStatusAC('succeeded'))
     })
 }
 
 export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch) => {
+    dispatch(setStatusAC('loading'))
     todolistApi.deleteTask(todolistId, taskId).then(response => {
         dispatch(removeTaskAC(todolistId, taskId))
+        dispatch(setStatusAC('succeeded'))
     })
 }
 export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+    dispatch(setStatusAC('loading'))
     todolistApi.createTasks(todolistId, title).then(response => {
         // @ts-ignore
         let task = response.data.data.item
         dispatch(addTaskAC(todolistId, title, task))
+        dispatch(setStatusAC('succeeded'))
+        dispatch(setErrorAC("error in add task"))
     })
 }
 
@@ -184,9 +191,10 @@ export const changeTaskStatusTC = (todolistId: string, taskId: string, status: T
         startDate: currentTask.startDate,
         deadline: currentTask.deadline
     }
-
+    dispatch(setStatusAC('loading'))
     todolistApi.updateTask(todolistId, taskId, model).then(response => {
         dispatch(changeTaskStatusAC(todolistId, taskId, status))
+        dispatch(setStatusAC('succeeded'))
     })
 }
 

@@ -1,9 +1,11 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {Button, TextField} from "@mui/material";
+import {RequestStatusType} from "./state/app-reducer";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
     label: string
+    status: RequestStatusType
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
@@ -45,7 +47,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
                 :
                 <TextField id="outlined-basic" label={props.label} variant="outlined" size={"small"} value={inputTaskValue} onChange={onChangeInputHandler} onKeyPress={onKeyPressInputHandler} className={''}/>}
 
-            <Button style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px', backgroundColor: 'black'}}  variant="contained" onClick={onClickButtonHandler}>+</Button>
+            <Button disabled={props.status === "loading"} style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px', backgroundColor: 'black'}}  variant="contained" onClick={onClickButtonHandler}>+</Button>
         </div>
     )
 })

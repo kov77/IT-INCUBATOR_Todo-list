@@ -21,7 +21,7 @@ export const Task = (props: any) => {
                 onChange={onChangeHandler}
                 type="checkbox" checked={props.el.status === TaskStatuses.Completed}/>
             <EditableSpan title={props.el.title} onChange={onChangeListItem}/>
-            <IconButton onClick={() => props.removeTask(props.el.id, props.id)} aria-label="delete">
+            <IconButton disabled={props.status === "loading"} onClick={() => props.removeTask(props.el.id, props.id)} aria-label="delete">
                 <Delete />
             </IconButton>
         </li>
