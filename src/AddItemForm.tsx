@@ -1,11 +1,10 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {Button, TextField} from "@mui/material";
-import {RequestStatusType} from "./state/app-reducer";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
     label: string
-    status: RequestStatusType
+    disabled: boolean
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
@@ -41,13 +40,22 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     }
 
     return (
-        <div>
+        <div >
             {error ?
-                <TextField error id="outlined-error" label="Text is required" size={"small"} value={inputTaskValue} onChange={onChangeInputHandler} onKeyPress={onKeyPressInputHandler} className={'error'}/>
+                <TextField disabled={props.disabled} error id="outlined-error" label="Text is required" size={"small"} value={inputTaskValue}
+                           onChange={onChangeInputHandler} onKeyPress={onKeyPressInputHandler} className={'error'}/>
                 :
-                <TextField id="outlined-basic" label={props.label} variant="outlined" size={"small"} value={inputTaskValue} onChange={onChangeInputHandler} onKeyPress={onKeyPressInputHandler} className={''}/>}
+                <TextField disabled={props.disabled} id="outlined-basic" label={props.label} variant="outlined" size={"small"}
+                           value={inputTaskValue} onChange={onChangeInputHandler} onKeyPress={onKeyPressInputHandler}
+                           className={''}/>}
 
-            <Button disabled={props.status === "loading"} style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px', backgroundColor: 'black'}}  variant="contained" onClick={onClickButtonHandler}>+</Button>
+            <Button disabled={props.disabled} style={{
+                maxWidth: '40px',
+                maxHeight: '40px',
+                minWidth: '40px',
+                minHeight: '40px',
+                backgroundColor: 'black'
+            }} variant="contained" onClick={onClickButtonHandler}>+</Button>
         </div>
     )
 })

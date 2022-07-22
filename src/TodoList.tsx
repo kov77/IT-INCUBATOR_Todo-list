@@ -28,6 +28,7 @@ type PropsType = {
     selectAllItems: (todoListId: string, isChecked: boolean, tasks: any) => void
     allSelectItem: boolean
     status: RequestStatusType
+    entityStatus: RequestStatusType | string
 
 }
 
@@ -80,11 +81,11 @@ export const TodoList = React.memo((props: PropsType) => {
         <div className={classes.todolistClass}>
             <h3 className={classes.todolistHeader}>{<EditableSpan title={props.title} onChange={onChangeTitleItem}/>
             }
-                <IconButton disabled={props.status === "loading"} className={classes.todolistXBtn} onClick={removeTodolistHandler} aria-label="delete">
+                <IconButton disabled={props.entityStatus === 'loading'} className={classes.todolistXBtn} onClick={removeTodolistHandler} aria-label="delete">
                     <Delete />
                 </IconButton>
             </h3>
-            <AddItemForm status={props.status} label={'New task'} addItem={addTask}/>
+            <AddItemForm disabled={props.entityStatus === 'loading'} label={'New task'} addItem={addTask}/>
             <li className={classes.allItems}>
                 <input onChange={onChangeAllItemsHandler}
                        className={classes.allItemsInput}

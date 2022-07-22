@@ -19,7 +19,7 @@ import {
     selectAllItemsAC
 } from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType, store, useAppSelector} from "./state/store";
+import {AppRootStateType, useAppSelector} from "./state/store";
 import {TaskStatuses} from "./api/todolists-api";
 import {ErrorSnackbar} from "./ErrorSnackbar";
 
@@ -86,7 +86,7 @@ function AppWithRedux() {
             {status === "loading" && <LinearProgress style={{"width": "100%"}} color="secondary"/>}
             <Container fixed>
                 <Grid container style={{padding: "20px"}}>
-                    <AddItemForm status={status} label={'New todolist'} addItem={addTodolist}/>
+                    <AddItemForm disabled={false} label={'New todolist'} addItem={addTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
                     {
@@ -97,6 +97,7 @@ function AppWithRedux() {
                             return <Grid key={el.id} item>
                                 <Paper key={el.id} style={{padding: "10px"}}>
                                     <TodoList
+                                        entityStatus={el.entityStatus}
                                         status = {status}
                                         tasksArray = {tasks}
                                         key={el.id}

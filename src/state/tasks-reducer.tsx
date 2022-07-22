@@ -168,11 +168,15 @@ export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: D
 export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
     dispatch(setStatusAC('loading'))
     todolistApi.createTasks(todolistId, title).then(response => {
-        // @ts-ignore
-        let task = response.data.data.item
-        dispatch(addTaskAC(todolistId, title, task))
-        dispatch(setStatusAC('succeeded'))
-        dispatch(setErrorAC("error in add task"))
+        if(response.data.resultCode === 0) {
+            // @ts-ignore
+            dispatch(addTaskAC(todolistId, title, response.data.data.item))
+            dispatch(setStatusAC('succeeded'))
+        } else {
+            dispatch(setErrorAC(response.data.messages[0]))
+            dispatch(setStatusAC('failed'))
+
+        }
     })
 }
 

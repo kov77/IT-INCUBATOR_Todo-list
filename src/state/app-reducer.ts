@@ -1,11 +1,10 @@
-import {Dispatch} from "redux";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 const initialState = {
-//    status: 'loading' as RequestStatusType
     status: "" as RequestStatusType,
-    error: null as null | string
+    error: null as null | string,
+    entityStatus : 'idle'
 }
 
 type InitialStateType = typeof initialState
