@@ -4,7 +4,7 @@ import {Button, TextField} from "@mui/material";
 type AddItemFormPropsType = {
     addItem: (title: string) => void
     label: string
-    disabled: boolean
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
