@@ -4,6 +4,8 @@ import {TodoList} from "./TodoList";
 import Header from "./Header";
 import {AddItemForm} from "./AddItemForm";
 import {Container, Grid, Paper} from "@mui/material";
+import {Navigate, Route, Routes } from 'react-router-dom';
+
 import LinearProgress from '@mui/material/LinearProgress';
 import {
     todoListDomainType,
@@ -22,6 +24,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType, useAppSelector} from "./state/store";
 import {TaskStatuses} from "./api/todolists-api";
 import {ErrorSnackbar} from "./ErrorSnackbar";
+import {Login} from "./utils/Login";
 
 function AppWithRedux() {
 
@@ -84,42 +87,52 @@ function AppWithRedux() {
         <div className="App">
             <Header/>
             {status === "loading" && <LinearProgress style={{"width": "100%"}} color="secondary"/>}
-            <Container fixed>
-                <Grid container style={{padding: "20px"}}>
-                    <AddItemForm disabled={false} label={'New todolist'} addItem={addTodolist}/>
-                </Grid>
-                <Grid container spacing={3}>
-                    {
-                        todolists.map((el: any) => {
-                            console.log(el)
-                            let tasksForTodoList = tasks[el.id];
 
-                            return <Grid key={el.id} item>
-                                <Paper key={el.id} style={{padding: "10px"}}>
-                                    <TodoList
-                                        entityStatus={el.entityStatus}
-                                        status = {status}
-                                        tasksArray = {tasks}
-                                        key={el.id}
-                                        id={el.id}
-                                        filter={el.filter}
-                                        title={el.title}
-                                        tasks={tasksForTodoList}
-                                        changeTaskStatus={changeTaskStatus}
-                                        removeTask={removeTask}
-                                        filterTasks={filterTasks}
-                                        addTask={addTask}
-                                        removeTodoList={removeTodoList}
-                                        onChangeListItemHandler={onChangeListItemHandler}
-                                        changeTodolistTitle={changeTodolistTitle}
-                                        selectAllItems={selectAllItems}
-                                        allSelectItem={el.selectHandler}
-                                    />
-                                </Paper>
+            <Container fixed>
+                <Routes>
+                    <Route path={"/"} element={
+                        <>
+                            <Grid container style={{padding: "20px"}}>
+                                <AddItemForm disabled={false} label={'New todolist'} addItem={addTodolist}/>
                             </Grid>
-                        })
-                    }
-                </Grid>
+                            <Grid container spacing={3}>
+                                {
+                                    todolists.map((el: any) => {
+                                        console.log(el)
+                                        let tasksForTodoList = tasks[el.id];
+
+                                        return <Grid key={el.id} item>
+                                            <Paper key={el.id} style={{padding: "10px"}}>
+                                                <TodoList
+                                                    entityStatus={el.entityStatus}
+                                                    status={status}
+                                                    tasksArray={tasks}
+                                                    key={el.id}
+                                                    id={el.id}
+                                                    filter={el.filter}
+                                                    title={el.title}
+                                                    tasks={tasksForTodoList}
+                                                    changeTaskStatus={changeTaskStatus}
+                                                    removeTask={removeTask}
+                                                    filterTasks={filterTasks}
+                                                    addTask={addTask}
+                                                    removeTodoList={removeTodoList}
+                                                    onChangeListItemHandler={onChangeListItemHandler}
+                                                    changeTodolistTitle={changeTodolistTitle}
+                                                    selectAllItems={selectAllItems}
+                                                    allSelectItem={el.selectHandler}
+                                                />
+                                            </Paper>
+                                        </Grid>
+                                    })
+                                }
+                            </Grid>
+                        </>
+                    }/>
+                    <Route path={"/login"} element={<Login/>}/>
+                    <Route path={"/404"} element={<h1>404: PAGE NOT FOUND</h1>}/>
+                    <Route path={"*"} element={<Navigate to="/404"/>} />
+                </Routes>
             </Container>
             <ErrorSnackbar />
         </div>
