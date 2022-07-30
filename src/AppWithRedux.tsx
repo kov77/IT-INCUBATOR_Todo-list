@@ -98,7 +98,6 @@ function AppWithRedux() {
                             <Grid container spacing={3}>
                                 {
                                     todolists.map((el: any) => {
-                                        console.log(el)
                                         let tasksForTodoList = tasks[el.id];
 
                                         return <Grid key={el.id} item>

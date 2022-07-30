@@ -76,6 +76,20 @@ export type updateTaskType = {
     deadline: string
 }
 
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?: string
+}
+
+export type LoginResponseType = {
+    resultCode: number
+    messages: Array<string>
+    data: {
+        userId: number
+    }
+}
 
 
 
@@ -105,3 +119,11 @@ export const todolistApi = {
         return instance.put<basicTaskType<taskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 }
+
+export const authAPI = {
+    login(data: LoginParamsType) {
+        return instance.post<LoginResponseType>('auth/login', data)
+    }
+
+}
+
