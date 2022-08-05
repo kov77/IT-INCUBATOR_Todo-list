@@ -123,6 +123,12 @@ export const todolistApi = {
 export const authAPI = {
     login(data: LoginParamsType) {
         return instance.post<LoginResponseType>('auth/login', data)
+    },
+    logout() {
+        return instance.delete('auth/login')
+    },
+    me() {
+        return instance.get<LoginResponseType>('auth/me')
     }
 
 }

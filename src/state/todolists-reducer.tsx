@@ -3,6 +3,7 @@ import {todolistApi, todolistType} from "../api/todolists-api"
 import {RequestStatusType, setErrorAC, setStatusAC} from "./app-reducer";
 import {AxiosError} from "axios";
 import {handleNetworkError} from "../utils/error-utils";
+import {setIsLoggedInAC} from "./auth-reducer";
 
 const initialState: Array<todoListDomainType> = [];
 
@@ -159,10 +160,9 @@ export const fetchTodosTC = () => (dispatch: Dispatch) => {
     todolistApi.getTodolist().then(response => {
         dispatch(setTodolistsAC(response.data))
         dispatch(setStatusAC('succeeded'))
-
     })
-        .catch((error: AxiosError) => {
-            handleNetworkError(dispatch, error.message)
+        .catch(() => {
+            dispatch(setStatusAC('succeeded'))
         })
 }
 

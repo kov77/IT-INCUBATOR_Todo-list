@@ -12,6 +12,7 @@ import { loginTC } from '../state/auth-reducer';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../state/store";
 import { Navigate } from 'react-router-dom';
+import {fetchTodosTC} from "../state/todolists-reducer";
 
 const validate = (values: any) => {
     const errors: any = {};

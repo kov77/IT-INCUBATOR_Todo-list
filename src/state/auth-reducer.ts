@@ -5,7 +5,8 @@ import {AxiosError} from "axios";
 import {handleNetworkError} from "../utils/error-utils";
 
 const initialState = {
-   isLoggedIn: false
+    isLoggedIn: false,
+    isAuthorized: false
 }
 type InitialStateType = typeof initialState
 
@@ -20,6 +21,7 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 // actions
 export const setIsLoggedInAC = (value: boolean) =>
    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
+
 
 // thunks
 export const loginTC = (data: any) => (dispatch: Dispatch<ActionsType>) => {
@@ -36,5 +38,13 @@ export const loginTC = (data: any) => (dispatch: Dispatch<ActionsType>) => {
         })
 }
 
+export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
+    authAPI.logout()
+        .then(response => {
+            dispatch(setIsLoggedInAC(false))
+        })
+}
+
 // types
-type ActionsType = ReturnType<typeof setIsLoggedInAC>
+type ActionsType =  setLoggedType
+type setLoggedType = ReturnType<typeof setIsLoggedInAC>
