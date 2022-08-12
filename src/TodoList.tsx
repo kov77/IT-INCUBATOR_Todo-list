@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -25,8 +25,6 @@ type PropsType = {
     removeTodoList: (todoListId: string) => void
     onChangeListItemHandler: (newValue: string, id: string, todolistId: string) => void
     changeTodolistTitle: (title :string, id: string) => void
-    selectAllItems: (todoListId: string, isChecked: boolean, tasks: any) => void
-    allSelectItem: boolean
     status: RequestStatusType
     entityStatus: RequestStatusType | string
 
@@ -58,11 +56,6 @@ export const TodoList = React.memo((props: PropsType) => {
         props.changeTodolistTitle(title, props.id)
     }, [props.changeTodolistTitle, props.id])
 
-    const onChangeAllItemsHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.selectAllItems(props.id, e.currentTarget.checked, props.tasksArray)
-        console.log('onChangeAllItemsHandler')
-    }
-
     let tasksForTodoList = props.tasks
 
     if (props.filter === "active") {
@@ -86,11 +79,6 @@ export const TodoList = React.memo((props: PropsType) => {
                 </IconButton>
             </h3>
             <AddItemForm disabled={props.entityStatus === 'loading'} label={'New task'} addItem={addTask}/>
-            <li className={classes.allItems}>
-                <input onChange={onChangeAllItemsHandler}
-                       className={classes.allItemsInput}
-                       type="checkbox" checked={props.allSelectItem}/>
-            </li>
             <ul className={classes.todolistItemsWrapper}>
                 {
                     tasksForTodoList.map((el) => <Task el={el}

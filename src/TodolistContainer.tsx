@@ -15,7 +15,6 @@ import {addTaskTC, changeTaskStatusTC, changeTaskTitleTC, removeTaskTC, tasksSta
 
 import {
     filterTasksAC,
-    selectAllItemsAC
 } from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType, useAppSelector} from "./state/store";
@@ -82,11 +81,6 @@ export function TodolistContainer() {
 
     }, [dispatch])
 
-    const selectAllItems = useCallback((todolistID: string, isChecked: boolean, tasks) => {
-        dispatch(selectAllItemsAC(isChecked, todolistID, tasks))
-    }, [dispatch, selectAllItemsAC, tasks])
-
-
     return (
         <>
             <Grid container style={{padding: "20px"}}>
@@ -115,8 +109,6 @@ export function TodolistContainer() {
                                     removeTodoList={removeTodoList}
                                     onChangeListItemHandler={onChangeListItemHandler}
                                     changeTodolistTitle={changeTodolistTitle}
-                                    selectAllItems={selectAllItems}
-                                    allSelectItem={el.selectHandler}
                                 />
                             </Paper>
                         </Grid>

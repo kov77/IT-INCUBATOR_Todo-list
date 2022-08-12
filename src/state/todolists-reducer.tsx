@@ -3,7 +3,6 @@ import {todolistApi, todolistType} from "../api/todolists-api"
 import {RequestStatusType, setErrorAC, setStatusAC} from "./app-reducer";
 import {AxiosError} from "axios";
 import {handleNetworkError} from "../utils/error-utils";
-import {setIsLoggedInAC} from "./auth-reducer";
 
 const initialState: Array<todoListDomainType> = [];
 
@@ -35,22 +34,6 @@ export const todolistsReducer = (state: Array<todoListDomainType> = initialState
         case "CHANGE-TODOLIST-FILTER": {
             return state.map(el => el.id === action.payload.todolistId ? {...el, filter: action.payload.filter} : el)
         }
-        case "SELECT-ALL-ITEMS": {
-            let todolist = state.find(todolist => todolist.id === action.payload.todolistId)
-            if (todolist) {
-                todolist.selectHandler = action.payload.isChecked
-                if (todolist.selectHandler) {
-                    action.payload.tasksObj[action.payload.todolistId].map((el: any) => {
-                        return el.status = true
-                    })
-                } else if (todolist.selectHandler === false) {
-                    action.payload.tasksObj[action.payload.todolistId].map((el: any) => {
-                        return el.status = false
-                    })
-                }
-            }
-            return [...state]
-        }
         case "SET-TODOLISTS": {
 
             return action.payload.todolists.map(todolist => {
@@ -76,7 +59,6 @@ export type removeTodolistType = ReturnType<typeof removeTodolistAC>
 export type addTodolistType = ReturnType<typeof addTodolistAC>
 export type changeTodolistTitleType = ReturnType<typeof changeTodolistTitleAC>
 export type filterTasksType = ReturnType<typeof filterTasksAC>
-export type selectAllItemsType = ReturnType<typeof selectAllItemsAC>
 export type setTodolistsType = ReturnType<typeof setTodolistsAC>
 export type changeTodolistEntityStatusType = ReturnType<typeof changeTodolistEntityStatusAC>
 
@@ -85,7 +67,6 @@ type todolistsReducerType =
     | addTodolistType
     | changeTodolistTitleType
     | filterTasksType
-    | selectAllItemsType
     | setTodolistsType
     | changeTodolistEntityStatusType
 
@@ -121,16 +102,6 @@ export const filterTasksAC = (filter: FilterValueType, todolistId: string) => {
         payload: {
             filter,
             todolistId
-        }
-    } as const
-}
-export const selectAllItemsAC = (isChecked: boolean, todolistId: string, tasksObj: any) => {
-    return {
-        type: 'SELECT-ALL-ITEMS',
-        payload: {
-            isChecked,
-            todolistId,
-            tasksObj
         }
     } as const
 }

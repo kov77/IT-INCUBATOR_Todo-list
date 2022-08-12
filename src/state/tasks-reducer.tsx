@@ -1,13 +1,12 @@
 import {
     addTodolistType,
     removeTodolistType,
-    selectAllItemsType,
     setTodolistsType
 } from "./todolists-reducer";
 import {TaskStatuses, taskType, todolistApi, updateTaskModelType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
-import {setErrorAC, setStatusAC} from "./app-reducer";
+import {setStatusAC} from "./app-reducer";
 import {AxiosError} from "axios";
 import {handleAppError, handleNetworkError} from "../utils/error-utils";
 
@@ -67,11 +66,7 @@ export const tasksReducer = (state: tasksStateType = initialState, action: tasks
             delete copyState[action.payload.todolistId]
             return copyState
         }
-        case "SELECT-ALL-ITEMS": {
-            return {...action.payload.tasksObj}
-        }
         case "SET-TASKS": {
-
             return {...state, [action.payload.todolistId]: action.payload.tasks}
         }
         default:
@@ -86,7 +81,6 @@ type tasksReducerType =
     | changeTaskTitleType
     | addTodolistType
     | removeTodolistType
-    | selectAllItemsType
     | SetTasksType
 type removeTaskType = ReturnType<typeof removeTaskAC>
 type addTaskType = ReturnType<typeof addTaskAC>
@@ -130,17 +124,6 @@ export const changeTaskTitleAC = (taskId: string, title: string, todolistId: str
             taskId,
             title,
             todolistId
-        }
-    } as const
-}
-
-export const selectAllItemsAC = (isChecked: boolean, todolistID: string, tasksObj: any) => {
-    return {
-        type: 'SELECT-ALL-ITEMS',
-        payload: {
-            isChecked,
-            todolistID,
-            tasksObj
         }
     } as const
 }
@@ -199,7 +182,7 @@ export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispa
 export const changeTaskStatusTC = (todolistId: string, taskId: string, status: TaskStatuses) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
 
     const state = getState()
-    const tasks = state.tasks
+    const tasks = state.tasks as any
     const currentTask = tasks[todolistId].find((task: taskType) => task.id === taskId)
 
     const model: updateTaskModelType = {
@@ -223,7 +206,7 @@ export const changeTaskStatusTC = (todolistId: string, taskId: string, status: T
 
 export const changeTaskTitleTC = (taskId: string, title: string, todolistId: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const state = getState()
-    const tasks = state.tasks
+    const tasks = state.tasks as any
     const currentTask = tasks[todolistId].find((task: taskType) => task.id === taskId)
 
     const model: updateTaskModelType = {

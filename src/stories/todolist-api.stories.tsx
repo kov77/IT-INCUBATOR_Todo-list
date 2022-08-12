@@ -166,13 +166,10 @@ export const UpdateTask = () => {
     const[title, setTitle] = useState<string>('')
     const[description, setDescription] = useState<string>('')
     const[status, setStatus] = useState<number>(0)
-    const[priority, setPriority] = useState<number>(0)
-    const[startDate, setStartDate] = useState<string>('')
-    const[deadline, setDeadline] = useState<string>('')
 
     const updateTask = () => {
         const state = store.getState()
-        const tasks = state.tasks
+        const tasks = state.tasks as any
         const currentTask = tasks[todolistId].find((task: any) => task.id === taskId)
 
         const model: any = {...currentTask, status}
