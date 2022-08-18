@@ -11,7 +11,14 @@ import {
     addTodolistTC,
     changeTodolistTitleTC, removeTodolistTC
 } from "./state/todolists-reducer"
-import {addTaskTC, changeTaskStatusTC, changeTaskTitleTC, removeTaskTC, tasksStateType} from "./state/tasks-reducer"
+import {
+    addTaskTC,
+    changeTaskStatusTC,
+    changeTaskTitleTC,
+    fetchTaskTC,
+    removeTaskTC,
+    tasksStateType
+} from "./state/tasks-reducer"
 
 import {
     filterTasksAC,
@@ -25,8 +32,9 @@ export function TodolistContainer() {
     const isLoggedIn = useSelector<AppRootStateType>(state => state.auth.isLoggedIn)
     let todolists = useSelector<AppRootStateType, todoListDomainType[]>(state => state.todolists)
 
-    let tasks = useSelector<AppRootStateType, tasksStateType>(state => state.tasks)
-
+    let tasks = useSelector<AppRootStateType, tasksStateType>(state => {
+        return state.tasks
+    })
     const dispatch = useDispatch()
 
     const status = useAppSelector((state) => state.app.status)
@@ -48,12 +56,11 @@ export function TodolistContainer() {
     }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {
-        console.log('add todo')
         dispatch(addTodolistTC(title) as any)
     }, [dispatch])
 
     const filterTasks = useCallback((filter: FilterValueType, todoListId: string) => {
-        dispatch(filterTasksAC(filter, todoListId))
+        dispatch(filterTasksAC({filter, todoListId}))
 
     }, [dispatch])
 

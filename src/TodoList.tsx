@@ -6,7 +6,7 @@ import classes from './Todolist.module.css'
 import {IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task";
-import { FilterValueType } from "./state/todolists-reducer";
+import {FilterValueType} from "./state/todolists-reducer";
 import {TaskStatuses, taskType} from "./api/todolists-api";
 import {useDispatch} from "react-redux";
 import { fetchTaskTC } from "./state/tasks-reducer";
@@ -37,11 +37,10 @@ export const TodoList = React.memo((props: PropsType) => {
     const onClickFilterHandlerComplited = useCallback(() => props.filterTasks( 'completed', props.id), [props.filterTasks, props.id])
 
     const dispatch = useDispatch()
-
     useEffect(() => {
         // @ts-ignore
-
         dispatch(fetchTaskTC(props.id))
+
     }, [])
 
     const removeTodolistHandler = () => {
@@ -57,6 +56,7 @@ export const TodoList = React.memo((props: PropsType) => {
     }, [props.changeTodolistTitle, props.id])
 
     let tasksForTodoList = props.tasks
+
 
     if (props.filter === "active") {
         tasksForTodoList = tasksForTodoList.filter((el: any) => {
